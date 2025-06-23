@@ -4,6 +4,7 @@ import { toNodeHandler } from "better-auth/node";
 import express from "express";
 import cors from "cors";
 import { auth } from "./lib/auth.js";
+import { RoomRouter } from "./routes/room.js";
 const app = express();
 const port = 8000;
 
@@ -17,6 +18,8 @@ app.use(
 app.all("/api/auth/{*any}", toNodeHandler(auth));
 
 app.use(express.json());
+
+app.use("/api/room", RoomRouter);
 
 app.listen(port, () => {
   console.log(`Http server listening on port ${port}`);

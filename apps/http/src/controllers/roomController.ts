@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { auth } from "../lib/auth.js";
 import { fromNodeHeaders } from "better-auth/node";
 import { generateUUID } from "../utils/generateUUID.js";
+import { prisma } from "@repo/db/prisma";
 
 async function createRoom(req: Request, res: Response) {
   try {
@@ -14,16 +15,16 @@ async function createRoom(req: Request, res: Response) {
     }
 
     const { user } = session;
-    const userId = user.id;
-    const userEmail = user.email;
-    const userName = user.name;
-    console.log("Creating room for user: " + userId);
-    const roomId = generateUUID();
+
+    const newRoom = await prisma.room.create({
+      data: {
+        adminId: user?.id,
+      },
+    });
 
     return res.status(201).json({
       message: "Room created",
-      roomId: roomId,
-      createdBy: user,
+      data: newRoom,
     });
   } catch (error) {
     console.log("Error in room controller" + error);

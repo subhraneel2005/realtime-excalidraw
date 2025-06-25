@@ -16,10 +16,30 @@ model User {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
+  rooms Room[]
+  chats Chat[]
+
   accounts Account[]
   sessions Session[]
 
   @@map("user")
+}
+
+model Room {
+  id        String   @id @default(cuid())
+  chats     Chat[]
+  createdAt DateTime @default(now())
+  adminId   String
+  user      User     @relation(fields: [adminId], references: [id])
+}
+
+model Chat {
+  id      Int    @id @default(autoincrement())
+  userId  String
+  roomId  String
+  message String
+  room    Room   @relation(fields: [roomId], references: [id])
+  user    User   @relation(fields: [userId], references: [id])
 }
 
 model Account {

@@ -102,4 +102,62 @@ async function getUserRooms(req: AuthRequest, res: Response) {
   }
 }
 
-export { createRoom, getAllRooms, getUserRooms };
+async function getSingleRoom(req: AuthRequest, res: Response) {
+  try {
+    const user = req.user;
+    const { roomId } = req.params;
+    if (!user) {
+      return res.status(401).json({
+        message: "Unauthorized access, login to view chats",
+      });
+    }
+
+    if (!roomId) {
+      return res.status(404).json({
+        message: "Room id cannot be empty",
+      });
+    }
+
+    const room = await prisma.room.findUnique({
+      where: {
+        id: roomId,
+      },
+      select: {
+        id: true,
+        createdAt: true,
+        chats: {
+          select: {
+            id: true,
+            message: true,
+            user: {
+              select: {
+                name: true,
+                image: true,
+              },
+            },
+          },
+        },
+        adminId: true,
+      },
+    });
+
+    if (!room) {
+      return res.status(404).json({
+        message: "Room not found",
+      });
+    }
+
+    return res.status(200).json({
+      message: "Room found",
+      data: room,
+    });
+  } catch (error) {
+    console.log("Internal server error at getSingleRoom controller" + error);
+    return res.status(500).json({
+      message: "Internal server error at getSingleRoom controller",
+      error: error,
+    });
+  }
+}
+
+export { createRoom, getAllRooms, getUserRooms, getSingleRoom };

@@ -3,6 +3,7 @@ import { authMiddleware, AuthRequest } from "../middlwares/AuthMiddleware.js";
 import {
   createRoom,
   getAllRooms,
+  getSingleRoom,
   getUserRooms,
 } from "../controllers/roomController.js";
 
@@ -18,4 +19,8 @@ RoomRouter.get("/getAll", (req: Request, res: Response) => {
 
 RoomRouter.get("/getMyRooms", authMiddleware, (req: Request, res: Response) => {
   getUserRooms(req as AuthRequest, res);
+});
+
+RoomRouter.get("/:roomId", authMiddleware, (req: Request, res: Response) => {
+  getSingleRoom(req as AuthRequest, res);
 });

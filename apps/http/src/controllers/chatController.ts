@@ -63,5 +63,4 @@ async function createChat(req: AuthRequest, res: Response) {
     });
   }
 }
-
 export { createChat };

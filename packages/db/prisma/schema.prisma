@@ -31,6 +31,8 @@ model Room {
   createdAt DateTime @default(now())
   adminId   String
   user      User     @relation(fields: [adminId], references: [id])
+
+  @@index([adminId])
 }
 
 model Chat {
@@ -40,6 +42,9 @@ model Chat {
   message String
   room    Room   @relation(fields: [roomId], references: [id])
   user    User   @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([roomId])
 }
 
 model Account {

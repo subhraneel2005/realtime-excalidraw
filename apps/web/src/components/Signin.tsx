@@ -7,22 +7,15 @@ import {
   CardHeader,
   CardTitle,
   CardDescription,
-  CardFooter,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
 import { useState } from "react";
-import { Loader2, Key } from "lucide-react";
-import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { signIn } from "../lib/auth-client";
 
+const CALLBACK_BASE_URL = process.env.NEXT_PUBLIC_APP_URL;
+
 export default function SignIn() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [rememberMe, setRememberMe] = useState(false);
 
   return (
     <div className="min-h-screen w-full justify-center items-center flex">
@@ -49,7 +42,7 @@ export default function SignIn() {
                   await signIn.social(
                     {
                       provider: "google",
-                      callbackURL: "/dashboard",
+                      callbackURL: `${CALLBACK_BASE_URL}`,
                     },
                     {
                       onRequest: (ctx) => {
@@ -95,7 +88,7 @@ export default function SignIn() {
                   await signIn.social(
                     {
                       provider: "github",
-                      callbackURL: "/dashboard",
+                      callbackURL: `${CALLBACK_BASE_URL}`,
                     },
                     {
                       onRequest: (ctx) => {
@@ -129,7 +122,7 @@ export default function SignIn() {
                   await signIn.social(
                     {
                       provider: "discord",
-                      callbackURL: "/dashboard",
+                      callbackURL: `${CALLBACK_BASE_URL}`,
                     },
                     {
                       onRequest: (ctx) => {

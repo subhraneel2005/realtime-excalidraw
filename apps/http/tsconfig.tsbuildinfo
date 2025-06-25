@@ -1,1 +1,1 @@
-{"root":["./src/index.ts","./src/controllers/roomController.ts","./src/lib/auth.ts","./src/middlwares/AuthMiddleware.ts","./src/routes/room.ts","./src/utils/generateUUID.ts"],"version":"5.8.2"}
+{"root":["./src/index.ts","./src/controllers/chatController.ts","./src/controllers/roomController.ts","./src/lib/auth.ts","./src/middlwares/AuthMiddleware.ts","./src/routes/chat.ts","./src/routes/room.ts","./src/utils/generateUUID.ts"],"version":"5.8.2"}

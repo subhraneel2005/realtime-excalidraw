@@ -1,5 +1,5 @@
 import { Request, Response, Router } from "express";
-import { authMiddleware } from "../middlwares/AuthMiddleware.js";
+import { authMiddleware, AuthRequest } from "../middlwares/AuthMiddleware.js";
 import {
   createRoom,
   getAllRooms,
@@ -9,13 +9,13 @@ import {
 export const RoomRouter: Router = Router();
 
 RoomRouter.post("/create", authMiddleware, (req: Request, res: Response) => {
-  createRoom(req, res);
+  createRoom(req as AuthRequest, res);
 });
 
 RoomRouter.get("/getAll", (req: Request, res: Response) => {
   getAllRooms(req, res);
 });
 
-RoomRouter.get("/getMyRooms", (req: Request, res: Response) => {
-  getUserRooms(req, res);
+RoomRouter.get("/getMyRooms", authMiddleware, (req: Request, res: Response) => {
+  getUserRooms(req as AuthRequest, res);
 });

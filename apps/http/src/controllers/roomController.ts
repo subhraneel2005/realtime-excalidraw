@@ -1,20 +1,16 @@
 import { Request, Response } from "express";
-import { auth } from "../lib/auth.js";
-import { fromNodeHeaders } from "better-auth/node";
-import { generateUUID } from "../utils/generateUUID.js";
 import { prisma } from "@repo/db/prisma";
+import { AuthRequest } from "../middlwares/AuthMiddleware.js";
 
-async function createRoom(req: Request, res: Response) {
+async function createRoom(req: AuthRequest, res: Response) {
   try {
-    const session = await auth.api.getSession({
-      headers: fromNodeHeaders(req.headers),
-    });
+    const user = req.user;
 
-    if (!session) {
-      return res.status(401).json({ message: "Unauthorized" });
+    if (!user) {
+      return res.status(401).json({
+        message: "Unauthorized access",
+      });
     }
-
-    const { user } = session;
 
     const newRoom = await prisma.room.create({
       data: {
@@ -69,17 +65,15 @@ async function getAllRooms(req: Request, res: Response) {
   }
 }
 
-async function getUserRooms(req: Request, res: Response) {
+async function getUserRooms(req: AuthRequest, res: Response) {
   try {
-    const session = await auth.api.getSession({
-      headers: fromNodeHeaders(req.headers),
-    });
+    const user = req.user;
 
-    if (!session) {
-      return res.status(401).json({ message: "Unauthorized" });
+    if (!user) {
+      return res.status(401).json({
+        message: "Unauthorized access",
+      });
     }
-
-    const { user } = session;
 
     const userRooms = await prisma.room.findMany({
       where: {

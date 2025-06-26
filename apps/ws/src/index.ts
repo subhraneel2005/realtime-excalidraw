@@ -1,13 +1,23 @@
-import { WebSocketServer } from "ws";
+import "dotenv/config.js";
+import { WebSocketServer, WebSocket } from "ws";
+import url from "url";
 
-const wss = new WebSocketServer({ port: 8080 });
+const PORT = parseInt(process.env.PORT!) || 3001;
 
-wss.on("connection", function connection(ws) {
-  ws.on("error", console.error);
+const wss = new WebSocketServer({ port: PORT });
+console.log(`🔗 Connect using: ws://localhost:${PORT}`);
 
-  ws.on("message", function message(data) {
-    console.log("received: %s", data);
-  });
+wss.on("connection", (ws, req) => {
+  console.log("🔔 Incoming connection request");
+  const { query } = url.parse(req.url!, true);
+  const token = query.token as string;
+  const roomId = query.roomId as string;
 
-  ws.send("something");
+  if (!token || !roomId) {
+    console.log("❌ Missing token or roomId");
+    ws.close(1008, "missing roomId or missing token");
+    return;
+  }
+
+  console.log(`✅ WebSocket connected, token:${token} roomId: ${roomId}`);
 });

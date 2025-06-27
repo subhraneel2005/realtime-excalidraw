@@ -94,6 +94,9 @@ importers:
         specifier: ^3.3.1
         version: 3.3.1
     devDependencies:
+      '@repo/commons':
+        specifier: workspace:*
+        version: link:../../packages/commons
       '@repo/eslint-config':
         specifier: workspace:*
         version: link:../../packages/eslint-config
@@ -146,9 +149,18 @@ importers:
         specifier: ^8.18.2
         version: 8.18.2(bufferutil@4.0.9)(utf-8-validate@5.0.10)
     devDependencies:
+      '@repo/commons':
+        specifier: workspace:*
+        version: link:../../packages/commons
       '@repo/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
+
+  packages/commons:
+    devDependencies:
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
 
   packages/db:
     dependencies:

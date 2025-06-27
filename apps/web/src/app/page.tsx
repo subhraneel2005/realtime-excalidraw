@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import { useSession } from "../lib/auth-client";
 import { toast } from "sonner";
 import axios from "axios";
+import { SUBSCRIBE } from "@repo/commons/commons";
 
 const baseHttpUrl = process.env.NEXT_PUBLIC_SERVER_URL!;
 const baseWsUrl = process.env.NEXT_PUBLIC_WS_SERVER_URL!;
@@ -63,9 +64,38 @@ export default function Home() {
       });
   }
 
+  function subscribeToWebsocket() {
+    try {
+      if (!token) {
+        toast.warning("You're not logged in");
+        return;
+      }
+
+      const socket = new WebSocket(`ws://localhost:8080?token=${token}`);
+
+      socket.onopen = () => {
+        toast.success("Connected to websocket server");
+        socket.send(
+          JSON.stringify({
+            type: SUBSCRIBE,
+          })
+        );
+      };
+
+      socket.onerror = (err) => {
+        console.error("WebSocket error:", err);
+        toast.error("WebSocket connection failed");
+      };
+    } catch (error) {
+      toast.error("Error subscribing to ws server");
+      console.log(error);
+      return;
+    }
+  }
+
   return (
     <div className="min-h-screen w-full flex justify-center items-center">
-      <Button onClick={createRoomHandler}>Create Room</Button>
+      <Button onClick={subscribeToWebsocket}>Connect wss</Button>
     </div>
   );
 }

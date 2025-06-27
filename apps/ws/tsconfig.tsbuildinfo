@@ -1,1 +1,1 @@
-{"root":["./src/index.ts","./src/events/Events.ts"],"version":"5.8.2"}
+{"root":["./src/index.ts","./src/classes/Room.ts","./src/classes/RoomManager.ts"],"version":"5.8.2"}

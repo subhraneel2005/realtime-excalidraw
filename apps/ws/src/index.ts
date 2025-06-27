@@ -1,7 +1,7 @@
 import "dotenv/config.js";
 import { WebSocketServer, WebSocket } from "ws";
 import url from "url";
-
+import { SUBSCRIBE } from "@repo/commons/commons";
 const PORT = parseInt(process.env.PORT!) || 3001;
 
 const wss = new WebSocketServer({ port: PORT });
@@ -13,11 +13,12 @@ wss.on("connection", (ws, req) => {
   const token = query.token as string;
   const roomId = query.roomId as string;
 
-  if (!token || !roomId) {
-    console.log("❌ Missing token or roomId");
-    ws.close(1008, "missing roomId or missing token");
-    return;
-  }
+  ws.on("message", (message) => {
+    if (message.toString() !== SUBSCRIBE) {
+      ws.close();
+      return;
+    }
 
-  console.log(`✅ WebSocket connected, token:${token} roomId: ${roomId}`);
+    ws.send("Connected to websocket");
+  });
 });

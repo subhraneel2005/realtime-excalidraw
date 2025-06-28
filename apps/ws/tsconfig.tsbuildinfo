@@ -1,1 +1,1 @@
-{"root":["./src/index.ts","./src/classes/Room.ts","./src/classes/RoomManager.ts"],"version":"5.8.2"}
+{"root":["./src/index.ts","./src/classes/Message.ts","./src/classes/Room.ts","./src/classes/User.ts","./src/lib/auth.ts","./src/lib/validateToken.ts"],"version":"5.8.2"}

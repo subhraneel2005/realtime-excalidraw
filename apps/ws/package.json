@@ -9,12 +9,14 @@
   },
   "dependencies": {
     "@types/ws": "^8.18.1",
+    "better-auth": "^1.2.10",
     "dotenv": "^16.5.0",
     "ws": "^8.18.2"
   },
   "devDependencies": {
-    "@repo/typescript-config": "workspace:*",
-    "@repo/commons": "workspace:*"
+    "@repo/commons": "workspace:*",
+    "@repo/db": "workspace:*",
+    "@repo/typescript-config": "workspace:*"
   },
   "keywords": [],
   "author": "",

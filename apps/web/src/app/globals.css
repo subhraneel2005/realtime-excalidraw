@@ -110,11 +110,20 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+@font-face{
+  font-family: "Satoshi";
+  src:local("Satoshi-Variable"),
+  url('/fonts/Satoshi-Variable.ttf') 
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
   body {
     @apply bg-background text-foreground;
+    font-family: "Satoshi";
+  font-weight: 500;
+  letter-spacing: -4%;
   }
 }
